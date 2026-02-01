@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>خليو الداخلة نقيّة — حملة منّيش نلوّثو</title>
+    <!-- Google Font for Arabic -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+            Single-file website styles (RTL Arabic)
+            Modern, soft color palette: blues, greens, white
+        */
+        :root{
+            --blue-500:#0ea5b7;
+            --blue-600:#0284c7;
+            --green-500:#22c55e;
+            --glass: rgba(255,255,255,0.8);
+            --muted: #64748b;
+            --card-shadow: 0 8px 24px rgba(2,6,23,0.08);
+            --accent: linear-gradient(135deg,var(--green-500),var(--blue-600));
+        }
+        /* Reset and base */
+        *{box-sizing:border-box}
+        html,body{height:100%}
+        body{
+            margin:0;
+            font-family:'Cairo',system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+            background:linear-gradient(180deg, #f8fbfd 0%, #ffffff 100%);
+            color:#05263b;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+            line-height:1.5;
+        }
+        a{color:inherit;text-decoration:none}
+
+        /* Header / Navbar */
+        header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,0.6);backdrop-filter:blur(6px);box-shadow:0 1px 0 rgba(10,20,30,0.04)}
+        .nav{max-width:1100px;margin:0 auto;display:flex;gap:16px;align-items:center;justify-content:space-between;padding:12px}
+        .brand{display:flex;align-items:center;gap:12px;font-weight:700}
+        .brand .logo{width:44px;height:44px;border-radius:10px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;box-shadow:var(--card-shadow)}
+        nav ul{display:flex;gap:10px;align-items:center;margin:0;padding:0;list-style:none}
+        nav li{font-weight:600;color:var(--muted)}
+        .cta{background:var(--blue-600);color:white;padding:10px 16px;border-radius:10px;box-shadow:0 6px 18px rgba(2,132,199,0.18);}
+
+        /* Hero */
+        .hero{min-height:72vh;display:grid;align-items:center}
+        .hero-inner{max-width:1100px;margin:0 auto;padding:36px;display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center}
+        .hero-card{background:rgba(255,255,255,0.85);padding:28px;border-radius:16px;box-shadow:var(--card-shadow)}
+        .hero-title{font-size:28px;margin:0 0 8px;font-weight:700}
+        .hero-lead{color:var(--muted);margin:0 0 18px}
+        .hero-cta{display:flex;gap:12px;align-items:center}
+        .primary-btn{background:var(--accent);color:white;padding:12px 18px;border-radius:12px;border:none;font-weight:700;cursor:pointer}
+        .secondary-btn{background:transparent;border:2px solid rgba(2,132,199,0.12);padding:10px 14px;border-radius:12px;cursor:pointer}
+
+        /* Hero background image */
+        .hero-bg{position:relative;border-radius:20px;overflow:hidden;height:420px;box-shadow:var(--card-shadow)}
+        .hero-bg img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.02) saturate(1.05)}
+        .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(2,6,23,0.16), rgba(34,197,94,0.06));display:flex;flex-direction:column;justify-content:flex-end;padding:20px;color:white}
+
+        /* Stats */
+        .stats{display:flex;gap:12px;margin-top:12px}
+        .stat{background:rgba(255,255,255,0.9);padding:10px 14px;border-radius:12px;display:flex;flex-direction:column;align-items:flex-start}
+        .stat strong{font-size:20px}
+        .support-counter{font-family:monospace;font-weight:700;color:var(--blue-600)}
+
+        /* Sections */
+        main{max-width:1100px;margin:28px auto;padding:0 18px}
+        .grid{display:grid;gap:20px}
+        .three-col{grid-template-columns:repeat(3,1fr)}
+        .two-col{grid-template-columns:1fr 340px}
+        .card{background:white;padding:18px;border-radius:12px;box-shadow:var(--card-shadow)}
+        h2{margin:6px 0 12px;font-size:20px}
+
+        /* Gallery */
+        .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+        .gallery img{width:100%;height:180px;object-fit:cover;border-radius:10px;cursor:pointer;transition:transform .35s ease,box-shadow .25s ease}
+        .gallery img:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 10px 28px rgba(2,6,23,0.12)}
+
+        /* Modal (gallery & participation) */
+        .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.45);z-index:80;padding:20px}
+        .modal.open{display:flex}
+        .modal-card{background:white;border-radius:12px;padding:14px;max-width:920px;width:100%;max-height:90vh;overflow:auto}
+        .modal-card img{width:100%;height:auto;border-radius:8px}
+
+        /* Footer */
+        footer{padding:28px 0;color:var(--muted);text-align:center}
+
+        /* Responsive */
+        @media (max-width:980px){
+            .hero-inner{grid-template-columns:1fr;}
+            .hero-bg{height:320px}
+            .gallery{grid-template-columns:repeat(2,1fr)}
+            .two-col{grid-template-columns:1fr}
+        }
+        @media (max-width:560px){
+            .gallery img{height:140px}
+            .brand .text{display:none}
+            .nav{padding:10px}
+        }
+    </style>
+    <meta name="description" content="حملة لتحفيز سكان الداخلة على المحافظة على نظافة المدينة، للحد من التلوث ودعم السياحة والصحة العامة">
+</head>
+
+<body>
+
+    <header>
+        <div class="nav">
+            <div class="brand">
+                <div class="logo">دخ</div>
+                <div>
+                    <div style="font-weight:700">خليو الداخلة نقيّة</div>
+                    <div style="font-size:12px;color:var(--muted)">حملة محلية لحماية المدينة والبحر</div>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#about">علاش التلوث خطير</a></li>
+                    <li><a href="#benefits">الفوائد</a></li>
+                    <li><a href="#gallery">صور</a></li>
+                    <li><a class="cta primary-btn" href="#join">شارك الآن</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-card">
+                <h1 class="hero-title">خليو الداخلة نقيّة — ما نلوّثوش أرضنا وبحرنا</h1>
+                <p class="hero-lead">نقاش بسيط وبمشاركة جماعية نقدروا نحافظو على الصحة، السياحة، وصورة المدينة. كل واحد فينا يقدّر يدير فرق.</p>
+                <div class="hero-cta">
+                    <button class="primary-btn" id="joinBtn">شارك معنا</button>
+                    <button class="secondary-btn" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">أعرف أكثر</button>
+                </div>
+
+                <div class="stats">
+                    <div class="stat">
+                        <div style="font-size:12px;color:var(--muted)">المساندين</div>
+                        <strong class="support-counter" data-target="3421">0</strong>
+                    </div>
+                    <div class="stat">
+                        <div style="font-size:12px;color:var(--muted)">حملات نظافة</div>
+                        <strong>18</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-bg">
+                <!-- Use an evocative Dakhla-style image -->
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=1b2b0b7f3e5ae1b2f9d4f7e7f0d1f2a6" alt="شاطئ الداخلة">
+                <div class="hero-overlay">
+                    <div style="font-size:14px;font-weight:700">بحر، رمال وسماء — خليوهم نقيين</div>
+                    <div style="font-size:13px;color:rgba(255,255,255,0.9)">صور من الداخلة — شارك بنصائحك وإجراءاتك</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <!-- About / dangers -->
+        <section id="about" class="grid two-col" style="margin-top:16px">
+            <div class="card">
+                <h2>علاش التلوث خطر؟</h2>
+                <p>التلويث كيأثر على الصحة العامة، على بحارنا وعلى السياحة لي هي مصدر رزق لناس بزاف. البلايص اللي ملوّثة كتولّي مرفوضة من الزوار وكتهدّر صورة المدينة.</p>
+                <ul>
+                    <li>الصحة: النفايات والمخلفات تزيد من الأمراض والتلوث.</li>
+                    <li>البحر: البلاستيك كيضر الحياة البحرية ويقلل من جودة الصيد.</li>
+                    <li>السياحة: النظافة تجلب الزوار وتدعم الاقتصاد المحلي.</li>
+                </ul>
+            </div>
+
+            <aside class="card">
+                <h2>شنو يقدر الواحد يدير؟</h2>
+                <p>الأفعال اليومية الصغيرة عندها تأثير كبير — زبّل في الأماكن المخصّصة، شارك في حملات النظافة، ووعي ناسك.</p>
+                <button class="primary-btn" id="miniJoin">نشارك</button>
+            </aside>
+        </section>
+
+        <!-- Benefits -->
+        <section id="benefits" style="margin-top:20px">
+            <h2>الفوائد ديال مدينة نقية</h2>
+            <div class="grid three-col" style="margin-top:10px">
+                <div class="card">
+                    <h3>صحة أحسن</h3>
+                    <p>قِلّة الأمراض، هواء وأنقى ومحيط صحي للعيالات والرجال.</p>
+                </div>
+                <div class="card">
+                    <h3>بحر أحلى</h3>
+                    <p>حياة بحرية أقوى، صيد نقي، وشواطئ زوينة للتمتع.</p>
+                </div>
+                <div class="card">
+                    <h3>سياحة وسمعة</h3>
+                    <p>زيدو السياحة، وسمعة الداخلة تولّي أفضل في الميدان الوطني والدولي.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery -->
+        <section id="gallery" style="margin-top:20px">
+            <h2>صور من المدينة</h2>
+            <div class="gallery" style="margin-top:10px">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800&auto=format&fit=crop" alt="شاطئ1" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=800&auto=format&fit=crop" alt="شاطئ2" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=800&auto=format&fit=crop" alt="شاطئ3" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1482192505345-5655af888cc4?q=80&w=800&auto=format&fit=crop" alt="مدينة" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1493558103817-58b2924bce98?q=80&w=800&auto=format&fit=crop" alt="صورة4" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1470770903676-69b98201ea1c?q=80&w=800&auto=format&fit=crop" alt="صورة5" loading="lazy">
+            </div>
+        </section>
+
+        <!-- Call to action -->
+        <section id="join" style="margin-top:22px;display:flex;align-items:center;justify-content:center">
+            <div class="card" style="max-width:760px;text-align:center">
+                <h2>بغيت نشارك — شنو ندير؟</h2>
+                <p>سجّل الدعم ديالك وبعث رسالة قصيرة: شارك فحملة نظافة، نقدّمو أدوات أو غير نلتازموا بنزع النفايات في الأماكن العمومية.</p>
+                <div style="display:flex;gap:12px;justify-content:center;margin-top:10px">
+                    <button class="primary-btn" id="participate">سجّل الدعم ديالي</button>
+                    <a href="#gallery" class="secondary-btn">شوف الصور</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div style="max-width:1100px;margin:0 auto;padding:12px;color:var(--muted)">
+            © 2026 حملة خليو الداخلة نقيّة — مبادرة مجتمعية. بمشاركة المواطنين، الجماعات والمنظمات.
+        </div>
+    </footer>
+
+    <!-- Modal for gallery preview and participation confirmation -->
+    <div id="modal" class="modal" aria-hidden="true">
+        <div class="modal-card" role="dialog" aria-modal="true">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                <strong id="modalTitle">معاينة</strong>
+                <button id="closeModal" style="background:transparent;border:none;font-size:18px;cursor:pointer">✕</button>
+            </div>
+            <div id="modalBody">
+                <!-- Filled by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript interactions: smooth scrolling, counter animation, modal, participation
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(a=>{
+            a.addEventListener('click', e=>{
+                e.preventDefault();
+                const target = document.querySelector(a.getAttribute('href'));
+                if(target) target.scrollIntoView({behavior:'smooth'});
+            });
+        });
+
+        // Animated counters when visible
+        function animateCounter(el, target){
+            let start = 0; const duration = 1800; const stepTime = Math.max(8, Math.floor(duration/target));
+            const run = setInterval(()=>{
+                start += Math.ceil(target/ (duration/stepTime));
+                if(start >= target){ el.textContent = target.toLocaleString(); clearInterval(run); }
+                else el.textContent = start.toLocaleString();
+            }, stepTime);
+        }
+        // Observe counters
+        const counters = document.querySelectorAll('.support-counter');
+        const io = new IntersectionObserver(entries=>{
+            entries.forEach(entry=>{
+                if(entry.isIntersecting){
+                    const el = entry.target; const t = parseInt(el.getAttribute('data-target')) || 0;
+                    animateCounter(el,t); io.unobserve(el);
+                }
+            });
+        }, {threshold:0.4});
+        counters.forEach(c=>io.observe(c));
+
+        // Modal logic for gallery preview
+        const modal = document.getElementById('modal');
+        const modalBody = document.getElementById('modalBody');
+        const modalTitle = document.getElementById('modalTitle');
+        const closeModal = document.getElementById('closeModal');
+
+        function openModal(title, html){
+            modalTitle.textContent = title;
+            modalBody.innerHTML = html;
+            modal.classList.add('open');
+            modal.setAttribute('aria-hidden','false');
+        }
+        function hideModal(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); modalBody.innerHTML=''; }
+        closeModal.addEventListener('click', hideModal);
+        modal.addEventListener('click', e=>{ if(e.target===modal) hideModal(); });
+
+        // Gallery click -> open modal
+        document.querySelectorAll('.gallery img').forEach(img=>{
+            img.addEventListener('click', ()=>{
+                openModal('صورة', `<img src="${img.src}" alt="" />`);
+            });
+        });
+
+        // Participation button increases counter and shows thanks modal
+        const participateBtn = document.getElementById('participate');
+        const joinBtn = document.getElementById('joinBtn');
+        const miniJoin = document.getElementById('miniJoin');
+        const supportEl = document.querySelector('.support-counter');
+
+        // Get current shown number from DOM (if any) or fallback
+        function getSupportNumber(){
+            const raw = supportEl.textContent.replace(/,/g,'').trim();
+            return parseInt(raw) || parseInt(supportEl.getAttribute('data-target')) || 0;
+        }
+
+        function addSupport(){
+            // increment visible target slightly and re-animate
+            let current = getSupportNumber();
+            const newTarget = current + 1;
+            supportEl.setAttribute('data-target', newTarget);
+            animateCounter(supportEl, newTarget);
+            openModal('شكراً على مشاركتك', `<p>شكراً بزاف! الدعم ديالك كيعاون باش نخليو الداخلة نقيّة.</p>`);
+        }
+        participateBtn.addEventListener('click', addSupport);
+        joinBtn.addEventListener('click', addSupport);
+        miniJoin.addEventListener('click', addSupport);
+
+        // Small entrance animations for cards
+        const appear = ()=>{
+            document.querySelectorAll('.card').forEach((el,i)=>{
+                el.style.opacity=0; el.style.transform='translateY(10px)';
+                setTimeout(()=>{ el.style.transition='all 500ms cubic-bezier(.2,.9,.2,1)'; el.style.opacity=1; el.style.transform='translateY(0)'; }, 80*i);
+            });
+        };
+        // Run animations after content loaded
+        window.addEventListener('load', appear);
+    </script>
+</body>
+</html>
